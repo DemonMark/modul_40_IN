@@ -1,0 +1,623 @@
+   1               		.file	"ip_arp_udp.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	checksum
+  18               	checksum:
+  19               	.LFB2:
+  20               	.LM1:
+  21               	.LVL0:
+  22 0000 EF92      		push r14
+  23 0002 FF92      		push r15
+  24 0004 0F93      		push r16
+  25 0006 1F93      		push r17
+  26 0008 CF93      		push r28
+  27 000a DF93      		push r29
+  28               	/* prologue: function */
+  29               	/* frame size = 0 */
+  30 000c 7C01      		movw r14,r24
+  31               	.LM2:
+  32 000e 4130      		cpi r20,lo8(1)
+  33 0010 01F4      		brne .L2
+  34               	.LVL1:
+  35               	.LM3:
+  36 0012 6850      		subi r22,lo8(-(-8))
+  37 0014 7040      		sbci r23,hi8(-(-8))
+  38               	.LVL2:
+  39 0016 9B01      		movw r18,r22
+  40               	.LVL3:
+  41 0018 40E0      		ldi r20,lo8(0)
+  42 001a 50E0      		ldi r21,hi8(0)
+  43               	.LVL4:
+  44 001c 685F      		subi r22,lo8(-(8))
+  45 001e 7F4F      		sbci r23,hi8(-(8))
+  46 0020 2F5E      		subi r18,lo8(-(17))
+  47 0022 3F4F      		sbci r19,hi8(-(17))
+  48 0024 4F4F      		sbci r20,hlo8(-(17))
+  49 0026 5F4F      		sbci r21,hhi8(-(17))
+  50               	.LVL5:
+  51 0028 00C0      		rjmp .L3
+  52               	.LVL6:
+  53               	.L2:
+  54               	.LM4:
+  55 002a 4230      		cpi r20,lo8(2)
+  56 002c 01F0      		breq .L4
+  57 002e 20E0      		ldi r18,lo8(0)
+  58 0030 30E0      		ldi r19,hi8(0)
+  59 0032 40E0      		ldi r20,hlo8(0)
+  60 0034 50E0      		ldi r21,hhi8(0)
+  61               	.LVL7:
+  62 0036 00C0      		rjmp .L3
+  63               	.LVL8:
+  64               	.L4:
+  65               	.LM5:
+  66 0038 6850      		subi r22,lo8(-(-8))
+  67 003a 7040      		sbci r23,hi8(-(-8))
+  68               	.LVL9:
+  69 003c 9B01      		movw r18,r22
+  70               	.LVL10:
+  71 003e 40E0      		ldi r20,lo8(0)
+  72 0040 50E0      		ldi r21,hi8(0)
+  73               	.LVL11:
+  74 0042 685F      		subi r22,lo8(-(8))
+  75 0044 7F4F      		sbci r23,hi8(-(8))
+  76 0046 2A5F      		subi r18,lo8(-(6))
+  77 0048 3F4F      		sbci r19,hi8(-(6))
+  78 004a 4F4F      		sbci r20,hlo8(-(6))
+  79 004c 5F4F      		sbci r21,hhi8(-(6))
+  80               	.LVL12:
+  81               	.L3:
+  82 004e E701      		movw r28,r14
+  83 0050 8B01      		movw r16,r22
+  84 0052 00C0      		rjmp .L5
+  85               	.LVL13:
+  86               	.L6:
+  87               	.LM6:
+  88 0054 F881      		ld r31,Y
+  89 0056 E0E0      		ldi r30,lo8(0)
+  90 0058 8981      		ldd r24,Y+1
+  91 005a 90E0      		ldi r25,lo8(0)
+  92 005c 8E2B      		or r24,r30
+  93 005e 9F2B      		or r25,r31
+  94 0060 A0E0      		ldi r26,lo8(0)
+  95 0062 B0E0      		ldi r27,hi8(0)
+  96 0064 280F      		add r18,r24
+  97 0066 391F      		adc r19,r25
+  98 0068 4A1F      		adc r20,r26
+  99 006a 5B1F      		adc r21,r27
+ 100               	.LM7:
+ 101 006c 2296      		adiw r28,2
+ 102               	.LM8:
+ 103 006e 0250      		subi r16,lo8(-(-2))
+ 104 0070 1040      		sbci r17,hi8(-(-2))
+ 105               	.LVL14:
+ 106               	.L5:
+ 107               	.LM9:
+ 108 0072 0230      		cpi r16,2
+ 109 0074 1105      		cpc r17,__zero_reg__
+ 110 0076 00F4      		brsh .L6
+ 111 0078 FB01      		movw r30,r22
+ 112               	.LVL15:
+ 113 007a EE7F      		andi r30,lo8(-2)
+ 114 007c EE0D      		add r30,r14
+ 115 007e FF1D      		adc r31,r15
+ 116               	.LM10:
+ 117 0080 60FF      		sbrs r22,0
+ 118 0082 00C0      		rjmp .L10
+ 119               	.LVL16:
+ 120               	.LM11:
+ 121 0084 9081      		ld r25,Z
+ 122 0086 80E0      		ldi r24,lo8(0)
+ 123 0088 AA27      		clr r26
+ 124 008a 97FD      		sbrc r25,7
+ 125 008c A095      		com r26
+ 126 008e BA2F      		mov r27,r26
+ 127 0090 00C0      		rjmp .L11
+ 128               	.L8:
+ 129               	.LM12:
+ 130 0092 4070      		andi r20,hlo8(65535)
+ 131 0094 5070      		andi r21,hhi8(65535)
+ 132               	.L11:
+ 133 0096 280F      		add r18,r24
+ 134 0098 391F      		adc r19,r25
+ 135 009a 4A1F      		adc r20,r26
+ 136 009c 5B1F      		adc r21,r27
+ 137               	.L10:
+ 138               	.LM13:
+ 139 009e CA01      		movw r24,r20
+ 140 00a0 AA27      		clr r26
+ 141 00a2 BB27      		clr r27
+ 142 00a4 0097      		sbiw r24,0
+ 143 00a6 A105      		cpc r26,__zero_reg__
+ 144 00a8 B105      		cpc r27,__zero_reg__
+ 145 00aa 01F4      		brne .L8
+ 146 00ac 2095      		com r18
+ 147 00ae 3095      		com r19
+ 148               	.LVL17:
+ 149               	.LM14:
+ 150 00b0 C901      		movw r24,r18
+ 151               	/* epilogue start */
+ 152 00b2 DF91      		pop r29
+ 153 00b4 CF91      		pop r28
+ 154 00b6 1F91      		pop r17
+ 155 00b8 0F91      		pop r16
+ 156 00ba FF90      		pop r15
+ 157 00bc EF90      		pop r14
+ 158 00be 0895      		ret
+ 159               	.LFE2:
+ 161               	.global	init_ip_arp_udp
+ 163               	init_ip_arp_udp:
+ 164               	.LFB3:
+ 165               	.LM15:
+ 166               	.LVL18:
+ 167               	/* prologue: function */
+ 168               	/* frame size = 0 */
+ 169 00c0 AC01      		movw r20,r24
+ 170               	.LM16:
+ 171 00c2 20E0      		ldi r18,lo8(0)
+ 172 00c4 30E0      		ldi r19,hi8(0)
+ 173               	.LVL19:
+ 174               	.L13:
+ 175               	.LM17:
+ 176 00c6 F901      		movw r30,r18
+ 177 00c8 E050      		subi r30,lo8(-(ipaddr))
+ 178 00ca F040      		sbci r31,hi8(-(ipaddr))
+ 179 00cc DB01      		movw r26,r22
+ 180 00ce A20F      		add r26,r18
+ 181 00d0 B31F      		adc r27,r19
+ 182 00d2 8C91      		ld r24,X
+ 183 00d4 8083      		st Z,r24
+ 184 00d6 2F5F      		subi r18,lo8(-(1))
+ 185 00d8 3F4F      		sbci r19,hi8(-(1))
+ 186               	.LM18:
+ 187 00da 2430      		cpi r18,4
+ 188 00dc 3105      		cpc r19,__zero_reg__
+ 189 00de 01F4      		brne .L13
+ 190 00e0 20E0      		ldi r18,lo8(0)
+ 191 00e2 30E0      		ldi r19,hi8(0)
+ 192               	.L14:
+ 193               	.LM19:
+ 194 00e4 F901      		movw r30,r18
+ 195 00e6 E050      		subi r30,lo8(-(macaddr))
+ 196 00e8 F040      		sbci r31,hi8(-(macaddr))
+ 197 00ea DA01      		movw r26,r20
+ 198 00ec A20F      		add r26,r18
+ 199 00ee B31F      		adc r27,r19
+ 200 00f0 8C91      		ld r24,X
+ 201 00f2 8083      		st Z,r24
+ 202 00f4 2F5F      		subi r18,lo8(-(1))
+ 203 00f6 3F4F      		sbci r19,hi8(-(1))
+ 204               	.LM20:
+ 205 00f8 2630      		cpi r18,6
+ 206 00fa 3105      		cpc r19,__zero_reg__
+ 207 00fc 01F4      		brne .L14
+ 208               	/* epilogue start */
+ 209               	.LM21:
+ 210 00fe 0895      		ret
+ 211               	.LFE3:
+ 213               	.global	eth_type_is_arp_and_my_ip
+ 215               	eth_type_is_arp_and_my_ip:
+ 216               	.LFB4:
+ 217               	.LM22:
+ 218               	.LVL20:
+ 219               	/* prologue: function */
+ 220               	/* frame size = 0 */
+ 221 0100 FC01      		movw r30,r24
+ 222               	.LM23:
+ 223 0102 6932      		cpi r22,lo8(41)
+ 224 0104 00F0      		brlo .L19
+ 225               	.LVL21:
+ 226               	.LM24:
+ 227 0106 8485      		ldd r24,Z+12
+ 228 0108 8830      		cpi r24,lo8(8)
+ 229 010a 01F4      		brne .L19
+ 230 010c 8585      		ldd r24,Z+13
+ 231 010e 8630      		cpi r24,lo8(6)
+ 232 0110 01F4      		brne .L19
+ 233 0112 DF01      		movw r26,r30
+ 234 0114 9696      		adiw r26,38
+ 235 0116 E0E0      		ldi r30,lo8(ipaddr)
+ 236 0118 F0E0      		ldi r31,hi8(ipaddr)
+ 237               	.LVL22:
+ 238               	.L20:
+ 239               	.LM25:
+ 240 011a 9C91      		ld r25,X
+ 241 011c 8081      		ld r24,Z
+ 242 011e 9817      		cp r25,r24
+ 243 0120 01F4      		brne .L19
+ 244 0122 1196      		adiw r26,1
+ 245 0124 3196      		adiw r30,1
+ 246               	.LM26:
+ 247 0126 80E0      		ldi r24,hi8(ipaddr+4)
+ 248 0128 E030      		cpi r30,lo8(ipaddr+4)
+ 249 012a F807      		cpc r31,r24
+ 250 012c 01F4      		brne .L20
+ 251 012e 81E0      		ldi r24,lo8(1)
+ 252 0130 0895      		ret
+ 253               	.LVL23:
+ 254               	.L19:
+ 255 0132 80E0      		ldi r24,lo8(0)
+ 256               	.LM27:
+ 257 0134 0895      		ret
+ 258               	.LFE4:
+ 260               	.global	eth_type_is_ip_and_my_ip
+ 262               	eth_type_is_ip_and_my_ip:
+ 263               	.LFB5:
+ 264               	.LM28:
+ 265               	.LVL24:
+ 266               	/* prologue: function */
+ 267               	/* frame size = 0 */
+ 268 0136 FC01      		movw r30,r24
+ 269               	.LM29:
+ 270 0138 6A32      		cpi r22,lo8(42)
+ 271 013a 00F0      		brlo .L25
+ 272               	.LVL25:
+ 273               	.LM30:
+ 274 013c 8485      		ldd r24,Z+12
+ 275 013e 8830      		cpi r24,lo8(8)
+ 276 0140 01F4      		brne .L25
+ 277 0142 8585      		ldd r24,Z+13
+ 278 0144 8823      		tst r24
+ 279 0146 01F4      		brne .L25
+ 280 0148 DF01      		movw r26,r30
+ 281 014a E0E0      		ldi r30,lo8(ipaddr)
+ 282 014c F0E0      		ldi r31,hi8(ipaddr)
+ 283               	.LVL26:
+ 284               	.L26:
+ 285               	.LM31:
+ 286 014e 5E96      		adiw r26,30
+ 287 0150 9C91      		ld r25,X
+ 288 0152 5E97      		sbiw r26,30
+ 289 0154 8081      		ld r24,Z
+ 290 0156 9817      		cp r25,r24
+ 291 0158 01F4      		brne .L25
+ 292 015a 1196      		adiw r26,1
+ 293 015c 3196      		adiw r30,1
+ 294               	.LM32:
+ 295 015e 80E0      		ldi r24,hi8(ipaddr+4)
+ 296 0160 E030      		cpi r30,lo8(ipaddr+4)
+ 297 0162 F807      		cpc r31,r24
+ 298 0164 01F4      		brne .L26
+ 299 0166 81E0      		ldi r24,lo8(1)
+ 300 0168 0895      		ret
+ 301               	.LVL27:
+ 302               	.L25:
+ 303 016a 80E0      		ldi r24,lo8(0)
+ 304               	.LM33:
+ 305 016c 0895      		ret
+ 306               	.LFE5:
+ 308               	.global	make_eth
+ 310               	make_eth:
+ 311               	.LFB6:
+ 312               	.LM34:
+ 313               	.LVL28:
+ 314               	/* prologue: function */
+ 315               	/* frame size = 0 */
+ 316               	.LM35:
+ 317 016e FC01      		movw r30,r24
+ 318               	.LVL29:
+ 319 0170 A0E0      		ldi r26,lo8(macaddr)
+ 320 0172 B0E0      		ldi r27,hi8(macaddr)
+ 321               	.L31:
+ 322               	.LM36:
+ 323 0174 8681      		ldd r24,Z+6
+ 324 0176 8083      		st Z,r24
+ 325               	.LM37:
+ 326 0178 8D91      		ld r24,X+
+ 327 017a 8683      		std Z+6,r24
+ 328 017c 3196      		adiw r30,1
+ 329               	.LM38:
+ 330 017e 80E0      		ldi r24,hi8(macaddr+6)
+ 331 0180 A030      		cpi r26,lo8(macaddr+6)
+ 332 0182 B807      		cpc r27,r24
+ 333 0184 01F4      		brne .L31
+ 334               	/* epilogue start */
+ 335               	.LM39:
+ 336 0186 0895      		ret
+ 337               	.LFE6:
+ 339               	.global	make_ip
+ 341               	make_ip:
+ 342               	.LFB7:
+ 343               	.LM40:
+ 344               	.LVL30:
+ 345 0188 CF93      		push r28
+ 346 018a DF93      		push r29
+ 347               	/* prologue: function */
+ 348               	/* frame size = 0 */
+ 349 018c EC01      		movw r28,r24
+ 350               	.LM41:
+ 351 018e FC01      		movw r30,r24
+ 352 0190 A0E0      		ldi r26,lo8(ipaddr)
+ 353 0192 B0E0      		ldi r27,hi8(ipaddr)
+ 354               	.L35:
+ 355               	.LM42:
+ 356 0194 828D      		ldd r24,Z+26
+ 357               	.LVL31:
+ 358 0196 868F      		std Z+30,r24
+ 359               	.LM43:
+ 360 0198 8D91      		ld r24,X+
+ 361 019a 828F      		std Z+26,r24
+ 362 019c 3196      		adiw r30,1
+ 363               	.LM44:
+ 364 019e 80E0      		ldi r24,hi8(ipaddr+4)
+ 365 01a0 A030      		cpi r26,lo8(ipaddr+4)
+ 366 01a2 B807      		cpc r27,r24
+ 367 01a4 01F4      		brne .L35
+ 368               	.LM45:
+ 369 01a6 188E      		std Y+24,__zero_reg__
+ 370               	.LM46:
+ 371 01a8 198E      		std Y+25,__zero_reg__
+ 372               	.LM47:
+ 373 01aa 80E4      		ldi r24,lo8(64)
+ 374 01ac 8C8B      		std Y+20,r24
+ 375               	.LM48:
+ 376 01ae 1D8A      		std Y+21,__zero_reg__
+ 377               	.LM49:
+ 378 01b0 8E8B      		std Y+22,r24
+ 379               	.LM50:
+ 380 01b2 CE01      		movw r24,r28
+ 381 01b4 0E96      		adiw r24,14
+ 382 01b6 64E1      		ldi r22,lo8(20)
+ 383 01b8 70E0      		ldi r23,hi8(20)
+ 384 01ba 40E0      		ldi r20,lo8(0)
+ 385 01bc 0E94 0000 		call checksum
+ 386               	.LM51:
+ 387 01c0 988F      		std Y+24,r25
+ 388               	.LM52:
+ 389 01c2 898F      		std Y+25,r24
+ 390               	/* epilogue start */
+ 391               	.LM53:
+ 392 01c4 DF91      		pop r29
+ 393 01c6 CF91      		pop r28
+ 394               	.LVL32:
+ 395 01c8 0895      		ret
+ 396               	.LFE7:
+ 398               	.global	make_udp_reply_from_request
+ 400               	make_udp_reply_from_request:
+ 401               	.LFB10:
+ 402               	.LM54:
+ 403               	.LVL33:
+ 404 01ca DF92      		push r13
+ 405 01cc EF92      		push r14
+ 406 01ce FF92      		push r15
+ 407 01d0 0F93      		push r16
+ 408 01d2 1F93      		push r17
+ 409 01d4 CF93      		push r28
+ 410 01d6 DF93      		push r29
+ 411               	/* prologue: function */
+ 412               	/* frame size = 0 */
+ 413 01d8 EC01      		movw r28,r24
+ 414 01da 7B01      		movw r14,r22
+ 415 01dc 142F      		mov r17,r20
+ 416 01de D22E      		mov r13,r18
+ 417 01e0 032F      		mov r16,r19
+ 418               	.LVL34:
+ 419               	.LM55:
+ 420 01e2 0E94 0000 		call make_eth
+ 421               	.LVL35:
+ 422 01e6 1D3D      		cpi r17,lo8(-35)
+ 423 01e8 00F0      		brlo .L39
+ 424 01ea 1CED      		ldi r17,lo8(-36)
+ 425               	.LVL36:
+ 426               	.L39:
+ 427               	.LM56:
+ 428 01ec 188A      		std Y+16,__zero_reg__
+ 429               	.LM57:
+ 430 01ee 145E      		subi r17,lo8(-(28))
+ 431               	.LVL37:
+ 432 01f0 198B      		std Y+17,r17
+ 433               	.LM58:
+ 434 01f2 CE01      		movw r24,r28
+ 435 01f4 0E94 0000 		call make_ip
+ 436               	.LM59:
+ 437 01f8 8AA1      		ldd r24,Y+34
+ 438 01fa 8CA3      		std Y+36,r24
+ 439               	.LM60:
+ 440 01fc 8BA1      		ldd r24,Y+35
+ 441 01fe 8DA3      		std Y+37,r24
+ 442               	.LM61:
+ 443 0200 0AA3      		std Y+34,r16
+ 444               	.LM62:
+ 445 0202 DBA2      		std Y+35,r13
+ 446               	.LM63:
+ 447 0204 1EA2      		std Y+38,__zero_reg__
+ 448               	.LM64:
+ 449 0206 1451      		subi r17,lo8(-(-20))
+ 450 0208 1FA3      		std Y+39,r17
+ 451 020a 1850      		subi r17,lo8(-(-8))
+ 452               	.LM65:
+ 453 020c 18A6      		std Y+40,__zero_reg__
+ 454               	.LM66:
+ 455 020e 19A6      		std Y+41,__zero_reg__
+ 456 0210 DE01      		movw r26,r28
+ 457 0212 9A96      		adiw r26,42
+ 458 0214 20E0      		ldi r18,lo8(0)
+ 459 0216 30E0      		ldi r19,hi8(0)
+ 460 0218 00C0      		rjmp .L40
+ 461               	.L41:
+ 462               	.LM67:
+ 463 021a F701      		movw r30,r14
+ 464 021c E20F      		add r30,r18
+ 465 021e F31F      		adc r31,r19
+ 466 0220 8081      		ld r24,Z
+ 467 0222 8D93      		st X+,r24
+ 468 0224 2F5F      		subi r18,lo8(-(1))
+ 469 0226 3F4F      		sbci r19,hi8(-(1))
+ 470               	.L40:
+ 471               	.LM68:
+ 472 0228 2117      		cp r18,r17
+ 473 022a 00F0      		brlo .L41
+ 474               	.LM69:
+ 475 022c 012F      		mov r16,r17
+ 476               	.LVL38:
+ 477 022e 10E0      		ldi r17,lo8(0)
+ 478               	.LVL39:
+ 479 0230 005F      		subi r16,lo8(-(16))
+ 480 0232 1F4F      		sbci r17,hi8(-(16))
+ 481 0234 CE01      		movw r24,r28
+ 482 0236 4A96      		adiw r24,26
+ 483 0238 B801      		movw r22,r16
+ 484 023a 41E0      		ldi r20,lo8(1)
+ 485 023c 0E94 0000 		call checksum
+ 486               	.LM70:
+ 487 0240 98A7      		std Y+40,r25
+ 488               	.LM71:
+ 489 0242 89A7      		std Y+41,r24
+ 490               	.LM72:
+ 491 0244 C801      		movw r24,r16
+ 492 0246 4A96      		adiw r24,26
+ 493 0248 BE01      		movw r22,r28
+ 494 024a 0E94 0000 		call enc28j60PacketSend
+ 495               	/* epilogue start */
+ 496               	.LM73:
+ 497 024e DF91      		pop r29
+ 498 0250 CF91      		pop r28
+ 499               	.LVL40:
+ 500 0252 1F91      		pop r17
+ 501 0254 0F91      		pop r16
+ 502 0256 FF90      		pop r15
+ 503 0258 EF90      		pop r14
+ 504               	.LVL41:
+ 505 025a DF90      		pop r13
+ 506               	.LVL42:
+ 507 025c 0895      		ret
+ 508               	.LFE10:
+ 510               	.global	make_echo_reply_from_request
+ 512               	make_echo_reply_from_request:
+ 513               	.LFB9:
+ 514               	.LM74:
+ 515               	.LVL43:
+ 516 025e 1F93      		push r17
+ 517 0260 CF93      		push r28
+ 518 0262 DF93      		push r29
+ 519               	/* prologue: function */
+ 520               	/* frame size = 0 */
+ 521 0264 EC01      		movw r28,r24
+ 522 0266 162F      		mov r17,r22
+ 523               	.LM75:
+ 524 0268 0E94 0000 		call make_eth
+ 525               	.LVL44:
+ 526               	.LM76:
+ 527 026c CE01      		movw r24,r28
+ 528 026e 0E94 0000 		call make_ip
+ 529               	.LM77:
+ 530 0272 1AA2      		std Y+34,__zero_reg__
+ 531               	.LM78:
+ 532 0274 8CA1      		ldd r24,Y+36
+ 533 0276 883F      		cpi r24,lo8(-8)
+ 534 0278 00F0      		brlo .L44
+ 535               	.LM79:
+ 536 027a 8DA1      		ldd r24,Y+37
+ 537 027c 8F5F      		subi r24,lo8(-(1))
+ 538 027e 8DA3      		std Y+37,r24
+ 539               	.L44:
+ 540               	.LM80:
+ 541 0280 8CA1      		ldd r24,Y+36
+ 542 0282 885F      		subi r24,lo8(-(8))
+ 543 0284 8CA3      		std Y+36,r24
+ 544               	.LM81:
+ 545 0286 812F      		mov r24,r17
+ 546 0288 90E0      		ldi r25,lo8(0)
+ 547 028a BE01      		movw r22,r28
+ 548 028c 0E94 0000 		call enc28j60PacketSend
+ 549               	/* epilogue start */
+ 550               	.LM82:
+ 551 0290 DF91      		pop r29
+ 552 0292 CF91      		pop r28
+ 553               	.LVL45:
+ 554 0294 1F91      		pop r17
+ 555               	.LVL46:
+ 556 0296 0895      		ret
+ 557               	.LFE9:
+ 559               	.global	make_arp_answer_from_request
+ 561               	make_arp_answer_from_request:
+ 562               	.LFB8:
+ 563               	.LM83:
+ 564               	.LVL47:
+ 565 0298 CF93      		push r28
+ 566 029a DF93      		push r29
+ 567               	/* prologue: function */
+ 568               	/* frame size = 0 */
+ 569 029c EC01      		movw r28,r24
+ 570               	.LM84:
+ 571 029e 0E94 0000 		call make_eth
+ 572               	.LVL48:
+ 573               	.LM85:
+ 574 02a2 1C8A      		std Y+20,__zero_reg__
+ 575               	.LM86:
+ 576 02a4 82E0      		ldi r24,lo8(2)
+ 577 02a6 8D8B      		std Y+21,r24
+ 578 02a8 FE01      		movw r30,r28
+ 579 02aa A0E0      		ldi r26,lo8(macaddr)
+ 580 02ac B0E0      		ldi r27,hi8(macaddr)
+ 581               	.L47:
+ 582               	.LM87:
+ 583 02ae 8689      		ldd r24,Z+22
+ 584 02b0 80A3      		std Z+32,r24
+ 585               	.LM88:
+ 586 02b2 8D91      		ld r24,X+
+ 587 02b4 868B      		std Z+22,r24
+ 588 02b6 3196      		adiw r30,1
+ 589               	.LM89:
+ 590 02b8 80E0      		ldi r24,hi8(macaddr+6)
+ 591 02ba A030      		cpi r26,lo8(macaddr+6)
+ 592 02bc B807      		cpc r27,r24
+ 593 02be 01F4      		brne .L47
+ 594 02c0 FE01      		movw r30,r28
+ 595 02c2 7C96      		adiw r30,28
+ 596 02c4 A0E0      		ldi r26,lo8(ipaddr)
+ 597 02c6 B0E0      		ldi r27,hi8(ipaddr)
+ 598               	.L48:
+ 599               	.LM90:
+ 600 02c8 8081      		ld r24,Z
+ 601 02ca 8287      		std Z+10,r24
+ 602               	.LM91:
+ 603 02cc 8D91      		ld r24,X+
+ 604 02ce 8193      		st Z+,r24
+ 605               	.LM92:
+ 606 02d0 80E0      		ldi r24,hi8(ipaddr+4)
+ 607 02d2 A030      		cpi r26,lo8(ipaddr+4)
+ 608 02d4 B807      		cpc r27,r24
+ 609 02d6 01F4      		brne .L48
+ 610               	.LM93:
+ 611 02d8 8AE2      		ldi r24,lo8(42)
+ 612 02da 90E0      		ldi r25,hi8(42)
+ 613 02dc BE01      		movw r22,r28
+ 614 02de 0E94 0000 		call enc28j60PacketSend
+ 615               	/* epilogue start */
+ 616               	.LM94:
+ 617 02e2 DF91      		pop r29
+ 618 02e4 CF91      		pop r28
+ 619               	.LVL49:
+ 620 02e6 0895      		ret
+ 621               	.LFE8:
+ 623               		.lcomm macaddr,6
+ 624               		.lcomm ipaddr,4
+ 713               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 ip_arp_udp.c
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:18     .text:00000000 checksum
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:163    .text:000000c0 init_ip_arp_udp
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:623    .bss:00000006 ipaddr
+                             .bss:00000000 macaddr
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:215    .text:00000100 eth_type_is_arp_and_my_ip
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:262    .text:00000136 eth_type_is_ip_and_my_ip
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:310    .text:0000016e make_eth
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:341    .text:00000188 make_ip
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:400    .text:000001ca make_udp_reply_from_request
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:512    .text:0000025e make_echo_reply_from_request
+C:\DOCUME~1\PROGRA~1\USTAWI~1\Temp/cclsw13I.s:561    .text:00000298 make_arp_answer_from_request
+
+UNDEFINED SYMBOLS
+enc28j60PacketSend
+__do_clear_bss
